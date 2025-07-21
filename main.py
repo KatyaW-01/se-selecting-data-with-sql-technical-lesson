@@ -68,7 +68,7 @@ SELECT length(firstName) AS name_length
 
 print(employee_name_lengths)
 
-#upper
+#upper (change to uppercase)
 upper_employees = pd.read_sql("""
 SELECT upper(firstName) AS name_in_all_caps
   FROM employees;
@@ -76,7 +76,27 @@ SELECT upper(firstName) AS name_in_all_caps
 
 print(upper_employees)
 
+#substr (string slicing)
+employees_initials = pd.read_sql("""
+SELECT substr(firstName, 1, 1) AS first_initial
+  FROM employees;
+""", conn).head()
 
+print(employees_initials)
 
+#same thing but adding a . after each first initial
+employees_initials = pd.read_sql("""
+SELECT substr(firstName, 1, 1) || "." AS first_initial
+  FROM employees;
+""", conn).head()
 
+print(employees_initials)
+
+#concatenate first and last names with a space in between 
+employees_full_names = pd.read_sql("""
+SELECT firstName || " " || lastName AS full_name
+  FROM employees;
+""", conn).head()
+
+print(employees_full_names)
                                       
