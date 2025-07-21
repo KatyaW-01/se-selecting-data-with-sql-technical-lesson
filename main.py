@@ -99,4 +99,59 @@ SELECT firstName || " " || lastName AS full_name
 """, conn).head()
 
 print(employees_full_names)
+
+
+#functions for math operations 
+order_details = pd.read_sql("""SELECT * FROM orderDetails;""", conn)
+print(order_details)
+
+#round
+rounded_prices = pd.read_sql("""
+SELECT round(priceEach) AS rounded_price
+  FROM orderDetails;
+""", conn)
+
+print(rounded_prices)
+
+#CAST (can use to return integers instead of floating point numbers)
+rounded_prices = pd.read_sql("""
+SELECT CAST(round(priceEach) AS INTEGER) AS rounded_price_int
+  FROM orderDetails;
+""", conn)
+
+print(rounded_prices)
+
+#basic math operations
+totals = pd.read_sql("""
+SELECT priceEach * quantityOrdered AS total_price
+  FROM orderDetails;
+""", conn)
+
+print(totals)
+
+
+#date and time operations
+orders = pd.read_sql("""SELECT * FROM orders;""", conn)
+print(orders)
+
+#how many days remaining between requiredDate and orderDate
+days_remaining = pd.read_sql("""
+SELECT julianday(requiredDate) - julianday(orderDate) AS days_from_order_to_required
+  FROM orders;
+""", conn)
+
+print(days_remaining)
+
+#strftime function
+order_dates = pd.read_sql("""
+SELECT orderDate,
+       strftime("%m", orderDate) AS month,
+       strftime("%Y", orderDate) AS year,
+       strftime("%d", orderDate) AS day
+  FROM orders;
+""", conn)
+
+print(order_dates)
+
+conn.close()
                                       
